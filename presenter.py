@@ -1,5 +1,9 @@
 #import tkinter as tk
 import requests
+from presentation_gui import PresentationAPP
+
+WIDTH = 1000
+HEIGHT = 800
 
 #Communication Config
 PP_ADDRESS = "http://10.0.0.33:8080"
@@ -44,12 +48,21 @@ def getData():
     return [naccX, naccY, naccZ, ngyrX, ngyrY, ngyrZ]
 
 def main():
+    
+    app = PresentationAPP(WIDTH, HEIGHT)
+    app.show_slides("FORWARD")
+    app.run()
 
     while True:
         [naccX, naccY, naccZ, ngyrX, ngyrY, ngyrZ] = getData()
         print("Accelerometer: ", naccX, ' ', naccY, ' ', naccZ, ' \n',
               "Gyroscope: ", ngyrX, ' ', ngyrY, ' ', ngyrZ)
-
+        
+        # EXAMPLE USE OF PRESENTATION APP
+        # ON TILT RIGHT -> app.show_slides("FORWARD")
+        # ON TILT LEFT -> app.show_slides("BACKWARD")
+        # ON CLICK -> app.click()
+        # ON MOUSE MOVE -> app.mouse_move(x_offset, y_offset)
 
 if __name__ == '__main__':
     main()
