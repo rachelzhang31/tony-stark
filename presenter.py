@@ -1,6 +1,8 @@
 import requests
 import time
-#from presentation_gui import PresentationAPP
+import datetime as dt
+import threading
+from presentation_gui import PresentationAPP
 
 WIDTH = 1000
 HEIGHT = 800
@@ -113,8 +115,8 @@ def main():
     app.show_slides("FORWARD")
 
     # Start threads
-    data_thread = threading.Thread(target=data_main, args=(app,), deamon=True)
-    gui_thread = threading.Thread(target=gui_main, args=(app,), deamon=True)
+    data_thread = threading.Thread(target=data_main, args=(app,), daemon=True)
+    gui_thread = threading.Thread(target=gui_main, args=(app,), daemon=True)
 
     data_thread.start()
     gui_thread.start()
