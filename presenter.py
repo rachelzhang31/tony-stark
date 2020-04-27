@@ -76,6 +76,9 @@ def data_main(GUI):
             print("Calibrated accY: ", calibratedY)
             print("Calibrated and ready!")
 
+        # Pointer Check
+            
+
 
         # Tilt Check
           # If change in accx spikes positive and gyrz spikes negative tilt right
@@ -83,19 +86,27 @@ def data_main(GUI):
               #Backwards needs some work with better identification
         if (naccX > (calibratedX + 7) and ngyrZ < -6):
             print("Going forwards!")
-            GUI.show_slides("FORWARD")
+            #GUI.show_slides("FORWARD")
             time.sleep(0.6)
         elif (naccX < (calibratedX - 7) and ngyrZ > 6 ):
-            print("Goimg backwards!")
-            GUI.show_slides("BACKWARD")
+            print("Going backwards!")
+            #GUI.show_slides("BACKWARD")
             time.sleep(0.6)
 
         # Squeeze
             # Take the ngyrX, ngyrY, ngyrZ measurements and smoosh them together into one variable
             # If this variable reaches a certain threshold, squeeze is detected
-        everyGyr = (ngyrX * ngyrY * ngyrZ)
-
-        #print("Master Gyroscope value: ", everyGyr)
+            # Also checks against the previous accX to see if it dropped a certain amount
+        '''linearX = 0
+        if (len(accX) > 1):
+            linearX = naccX - accX[-2]
+        veryGyr = (abs(ngyrX) * abs(ngyrY) * abs(ngyrZ))
+        
+        if (everyGyr > 0.03 and everyGyr < 0.8 and linearX > 1.2 and linearX < 2):
+            print("Master gyroscope: ", everyGyr)
+            print("accX difference: ", linearX)
+            print("You squeezed!")'''
+            
         #print("Accelerometer: ", naccX, ' ', naccY, ' ', naccZ, ' \n', "Gyroscope: ", ngyrX, ' ', ngyrY, ' ', ngyrZ)
 
 def gui_main(GUI):
