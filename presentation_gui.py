@@ -17,10 +17,8 @@ class PresentationAPP(tk.Tk):
 
         # CHANGE THESE SOURCE FILES TO SLIDESHOW LOOKING IMAGES
         self.picture_sources = [
-            "E:\\Desktop Backgrounds\\Nature Photos\\6uawxoeamejy.jpg",
-            "E:\\Desktop Backgrounds\\Nature Photos\\7C36tEF.jpg",
-            "E:\\Desktop Backgrounds\\Nature Photos\\99nmstboh26z.jpg",
-            "E:\\Desktop Backgrounds\\Nature Photos\\cbbyNYq.jpg",
+            "Backgrounds\\img1.jpg",
+            "Backgrounds\\img2.jpg",
         ]
         self.pictures = []
         self.slide_index = 0

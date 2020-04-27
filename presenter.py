@@ -65,6 +65,7 @@ def data_main(q):
         
         #Very basic calibration
         if calibratedX == 0 and calibratedY == 0:
+            print("Please stay put for 3 seconds")
             for i in range(300):
                 calibratedX += float(naccX)
                 calibratedY += float(naccY)
@@ -75,6 +76,7 @@ def data_main(q):
             print("Calibrated accX: ", calibratedX)
             print("Calibrated accY: ", calibratedY)
             print("Calibrated and ready!")
+            
 
         # Pointer Check
             
@@ -86,11 +88,6 @@ def data_main(q):
               #Backwards needs some work with better identification
         if (naccX > (calibratedX + 7) and ngyrZ < -6):
             print("Going forwards!")
-            GUI.show_slides("FORWARD")
-            time.sleep(0.6)
-        elif (naccX < (calibratedX - 7) and ngyrZ > 6 ):
-            print("Going backwards!")
-            GUI.show_slides("BACKWARD")
             q.put([0]) # FORWARDS
             time.sleep(0.6)
         elif (naccX < (calibratedX - 7) and ngyrZ > 6 ):
@@ -98,19 +95,11 @@ def data_main(q):
             q.put([1]) # BACKWARDS
             time.sleep(0.6)
 
-        # Squeeze
-            # Take the ngyrX, ngyrY, ngyrZ measurements and smoosh them together into one variable
-            # If this variable reaches a certain threshold, squeeze is detected
-            # Also checks against the previous accX to see if it dropped a certain amount
-        '''linearX = 0
-        if (len(accX) > 1):
-            linearX = naccX - accX[-2]
-        veryGyr = (abs(ngyrX) * abs(ngyrY) * abs(ngyrZ))
-        
-        if (everyGyr > 0.03 and everyGyr < 0.8 and linearX > 1.2 and linearX < 2):
-            print("Master gyroscope: ", everyGyr)
-            print("accX difference: ", linearX)
-            print("You squeezed!")'''
+        # Tap Check
+            # Checks Gyroscope and accY for giant spike
+        if (ngyrX > 1 and ngyrZ > 0.5):
+            print("You've tapped your phone")
+            time.sleep(0.05)
             
         #print("Accelerometer: ", naccX, ' ', naccY, ' ', naccZ, ' \n', "Gyroscope: ", ngyrX, ' ', ngyrY, ' ', ngyrZ)
 
