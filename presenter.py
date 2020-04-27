@@ -86,7 +86,7 @@ def data_main(GUI):
             GUI.show_slides("FORWARD")
             time.sleep(0.6)
         elif (naccX < (calibratedX - 7) and ngyrZ > 6 ):
-            print("Going backwards!")
+            print("Goimg backwards!")
             GUI.show_slides("BACKWARD")
             time.sleep(0.6)
 
