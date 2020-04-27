@@ -3,6 +3,7 @@ import time
 import datetime as dt
 import threading
 from presentation_gui import PresentationAPP
+from queue import Queue
 
 WIDTH = 1000
 HEIGHT = 800
@@ -49,8 +50,7 @@ def getData():
     return [naccX, naccY, naccZ, ngyrX, ngyrY, ngyrZ]
 
 
-
-def data_main(GUI):   
+def data_main(q):   
     # EXAMPLE USE OF PRESENTATION APP
     # ON TILT RIGHT -> app.show_slides("FORWARD")
     # ON TILT LEFT -> app.show_slides("BACKWARD")
@@ -86,11 +86,16 @@ def data_main(GUI):
               #Backwards needs some work with better identification
         if (naccX > (calibratedX + 7) and ngyrZ < -6):
             print("Going forwards!")
-            #GUI.show_slides("FORWARD")
+            GUI.show_slides("FORWARD")
             time.sleep(0.6)
         elif (naccX < (calibratedX - 7) and ngyrZ > 6 ):
             print("Going backwards!")
-            #GUI.show_slides("BACKWARD")
+            GUI.show_slides("BACKWARD")
+            q.put([0]) # FORWARDS
+            time.sleep(0.6)
+        elif (naccX < (calibratedX - 7) and ngyrZ > 6 ):
+            print("Goimg backwards!")
+            q.put([1]) # BACKWARDS
             time.sleep(0.6)
 
         # Squeeze
@@ -109,23 +114,24 @@ def data_main(GUI):
             
         #print("Accelerometer: ", naccX, ' ', naccY, ' ', naccZ, ' \n', "Gyroscope: ", ngyrX, ' ', ngyrY, ' ', ngyrZ)
 
-def gui_main(GUI):
-    app.run()
-    
-    
-def main():
+if __name__ == '__main__':
+    # Initialize App
     app = PresentationAPP(WIDTH, HEIGHT)
     app.init_images()
     app.show_slides("FORWARD")
 
+    # Create queue
+    q = Queue()
+
     # Start threads
-    data_thread = threading.Thread(target=data_main, args=(app,), daemon=True)
-    gui_thread = threading.Thread(target=gui_main, args=(app,), daemon=True)
-
+    data_thread = threading.Thread(target=data_main, args=(q,))
     data_thread.start()
-    gui_thread.start()
-
-
-if __name__ == '__main__':
-    main()
     
+    try:
+        app.run(q)
+    except KeyboardInterrupt:
+        print("QUITTING")
+        data_thread.join()
+    
+    q.join()
+
