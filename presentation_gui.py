@@ -84,7 +84,7 @@ class PresentationAPP(tk.Tk):
         except:
             pass
 
-        self.after(50, lambda: self.queue_event(q))
+        self.after(10, lambda: self.queue_event(q))
 
 
     def run(self, q):
