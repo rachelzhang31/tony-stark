@@ -97,7 +97,7 @@ def data_main(q):
 
         # Tap Check
             # Checks Gyroscope and accY for giant spike
-        if (ngyrX > 1 and ngyrZ > 0.5):
+        if (ngyrX < 5 and ngyrX > 1 and ngyrZ < 5 and ngyrZ > 0.5):
             print("You've tapped your phone")
             time.sleep(0.05)
             
