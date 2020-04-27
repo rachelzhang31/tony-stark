@@ -64,13 +64,11 @@ class PresentationAPP(tk.Tk):
         self.MOUSE_Y += y_offset
         pyautogui.moveTo(self.MOUSE_X, self.MOUSE_Y)
 
+    
     def queue_event(self, q):
-        while True:
-            try:
-                event = q.get(timeout=0.1)
-            except:
-                break
-
+        try:
+            event = q.get(timeout=0.1)
+            
             # TILT-FORWARD
             if event[0] == 0:
                 self.show_slides("FORWARD")
@@ -85,8 +83,11 @@ class PresentationAPP(tk.Tk):
                 self.move_mouse(event[1], event[2])
             else:
                 print("Unkown event argument)")
+        except:
+            pass
 
         self.after(50, lambda: self.queue_event(q))
+
 
     def run(self, q):
         self.after(500, lambda: self.queue_event(q))
