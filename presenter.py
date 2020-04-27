@@ -61,6 +61,7 @@ def data_main(q):
     calibratedY = 0
     
     while True:
+        #print(q.qsize())
         [naccX, naccY, naccZ, ngyrX, ngyrY, ngyrZ] = getData()
         
         #Very basic calibration
@@ -85,23 +86,27 @@ def data_main(q):
         if (naccX > (calibratedX + 7) and ngyrZ < -6):
             print("Going forwards!")
             q.put([0]) # FORWARDS
-            time.sleep(0.6)
+            time.sleep(0.1)
         elif (naccX < (calibratedX - 7) and ngyrZ > 6 ):
             print("Going backwards!")
             q.put([1]) # BACKWARDS
-            time.sleep(0.6)
+            time.sleep(0.1)
 
         # Tap Check
             # Checks Gyroscope and accY for giant spike
-        elif (ngyrX < 5 and ngyrX > 1 and ngyrZ < 5 and ngyrZ > 0.5):
+        elif (ngyrX < 8 and ngyrX > 1 and ngyrZ < 8 and ngyrZ > 0.5):
             print("You've tapped your phone")
             q.put([2]) # TAPS
-            time.sleep(0.05)
+            time.sleep(0.1)
 
         # Pointer Check
         else:
-            q.put([3, (20 * -round(naccX, 0)), 5 * -round(naccY, 0) - 1])
-            time.sleep(0.1)
+            if (naccY > 1 and naccY < 1.8):
+                q.put([3, (5 * -round(naccX, 0), 0)])
+            else:
+                q.put([3, (5 * -round(naccX, 0)), 2 * -round(naccY, 0)])
+
+            time.sleep(0.075)
 
             
         #print("Accelerometer: ", naccX, ' ', naccY, ' ', naccZ, ' \n', "Gyroscope: ", ngyrX, ' ', ngyrY, ' ', ngyrZ)

@@ -25,20 +25,20 @@ class PresentationAPP(tk.Tk):
         self.pictures = []
         self.slide_index = 0
         self.title("Powerpoint Emulation")
-
-        self.picture_display = tk.Label(self, cursor="circle")
-        self.picture_display.grid(column=1, row = 1, columnspan = 3)
    
         # BUTTONS
         self.font = tkFont.Font(family='Helvetica', size=12, weight='bold')
         self.previous_slide = tk.Button(self, text='Previous Slide', width=30, command= lambda: self.show_slides("BACKWARD"), font=self.font, cursor="dotbox")
-        self.previous_slide.grid(column=1, row = 2)
+        self.previous_slide.grid(column=1, row = 1)
 
-        self.exit_button = tk.Button(self, text='Exit', width=30, command=self.destroy, font=self.font, cursor="dotbox")
-        self.exit_button.grid(column=2, row = 2)
+        #self.exit_button = tk.Button(self, text='Exit', width=30, command=self.destroy, font=self.font, cursor="dotbox")
+        #self.exit_button.grid(column=2, row = 1)
 
         self.next_slide = tk.Button(self, text='Next Slide', width=30, command= lambda: self.show_slides("FORWARD"), font=self.font, cursor="dotbox")
-        self.next_slide.grid(column=3, row = 2)
+        self.next_slide.grid(column=3, row = 1)
+
+        self.picture_display = tk.Label(self, cursor="circle")
+        self.picture_display.grid(column=1, row = 2, columnspan = 3)
 
 
     def show_slides(self, direction):
@@ -67,7 +67,7 @@ class PresentationAPP(tk.Tk):
     
     def queue_event(self, q):
         try:
-            event = q.get(timeout=0.1)
+            event = q.get(timeout=0.01)
             
             # TILT-FORWARD
             if event[0] == 0:
