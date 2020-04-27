@@ -59,7 +59,3 @@ class PresentationAPP(tk.Tk):
     def run(self):
         self.mainloop()
 
-app = App(WIDTH, HEIGHT)
-app.show_slides("FORWARD")
-app.run()
-
