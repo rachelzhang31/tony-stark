@@ -46,21 +46,21 @@ def getData():
 
     return [naccX, naccY, naccZ, ngyrX, ngyrY, ngyrZ]
 
-def main():
 
+
+def data_main(GUI):   
+    # EXAMPLE USE OF PRESENTATION APP
+    # ON TILT RIGHT -> app.show_slides("FORWARD")
+    # ON TILT LEFT -> app.show_slides("BACKWARD")
+    # ON CLICK -> app.click()
+    # ON MOUSE MOVE -> app.mouse_move(x_offset, y_offset)
     #For initial calibration
     calibratedX = 0
     calibratedY = 0
     
-
-    # GUI Init
-    #app = PresentationAPP(WIDTH, HEIGHT)
-    #app.show_slides("FORWARD")
-    #app.run()
-
     while True:
         [naccX, naccY, naccZ, ngyrX, ngyrY, ngyrZ] = getData()
-
+        
         #Very basic calibration
         if calibratedX == 0 and calibratedY == 0:
             for i in range(300):
@@ -84,14 +84,14 @@ def main():
             print("Current accX: ", naccX)
             print("Current ngyrZ: ", ngyrZ)
             print("Going forwards!")
-            #app.show_slides("FORWARD")
+            GUI.show_slides("FORWARD")
             time.sleep(0.6)
         elif (naccX < (calibratedX - 7) and ngyrZ > 6 ):
         #elif (ngyrZ > 6):
             print("Current accX: ", naccX)
             print("Current ngyrZ: ", ngyrZ)
             print("Goimg backwards!")
-            #app.show_slides("BACKWARD")
+            GUI.show_slides("BACKWARD")
             time.sleep(0.6)
 
         # Squeeze
@@ -100,13 +100,25 @@ def main():
         everyGyr = (ngyrX * ngyrY * ngyrZ)
 
         print("Master Gyroscope value: ", everyGyr)
-        
-        
-        # EXAMPLE USE OF PRESENTATION APP
-        # ON TILT RIGHT -> app.show_slides("FORWARD")
-        # ON TILT LEFT -> app.show_slides("BACKWARD")
-        # ON CLICK -> app.click()
-        # ON MOUSE MOVE -> app.mouse_move(x_offset, y_offset)
+        print("Accelerometer: ", naccX, ' ', naccY, ' ', naccZ, ' \n',
+              "Gyroscope: ", ngyrX, ' ', ngyrY, ' ', ngyrZ)
+
+def gui_main(GUI):
+    app.run()
+    
+    
+def main():
+    app = PresentationAPP(WIDTH, HEIGHT)
+    app.init_images()
+    app.show_slides("FORWARD")
+
+    # Start threads
+    data_thread = threading.Thread(target=data_main, args=(app,), deamon=True)
+    gui_thread = threading.Thread(target=gui_main, args=(app,), deamon=True)
+
+    data_thread.start()
+    gui_thread.start()
+
 
 if __name__ == '__main__':
     main()
