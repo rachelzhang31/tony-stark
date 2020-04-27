@@ -11,7 +11,7 @@ class PresentationAPP(tk.Tk):
     def __init__(self, x, y):
         # the root will be self
         tk.Tk.__init__(self)
-        self.geometry('+{}+{}'.format(x, y))
+        self.geometry('+100+100')
         
         self.MOUSE_X, self.MOUSE_Y = pyautogui.position()
 

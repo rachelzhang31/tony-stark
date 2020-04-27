@@ -87,7 +87,7 @@ def data_main(q):
             q.put([0]) # FORWARDS
             time.sleep(0.6)
         elif (naccX < (calibratedX - 7) and ngyrZ > 6 ):
-            print("Goimg backwards!")
+            print("Going backwards!")
             q.put([1]) # BACKWARDS
             time.sleep(0.6)
 
@@ -100,7 +100,8 @@ def data_main(q):
 
         # Pointer Check
         else:
-            q.put([3, naccX, naccY])
+            q.put([3, (20 * -round(naccX, 0)), 5 * -round(naccY, 0) - 1])
+            time.sleep(0.1)
 
             
         #print("Accelerometer: ", naccX, ' ', naccY, ' ', naccZ, ' \n', "Gyroscope: ", ngyrX, ' ', ngyrY, ' ', ngyrZ)
