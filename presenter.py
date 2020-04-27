@@ -76,10 +76,6 @@ def data_main(q):
             print("Calibrated accX: ", calibratedX)
             print("Calibrated accY: ", calibratedY)
             print("Calibrated and ready!")
-            
-
-        # Pointer Check
-            
 
 
         # Tilt Check
@@ -97,9 +93,15 @@ def data_main(q):
 
         # Tap Check
             # Checks Gyroscope and accY for giant spike
-        if (ngyrX < 5 and ngyrX > 1 and ngyrZ < 5 and ngyrZ > 0.5):
+        elif (ngyrX < 5 and ngyrX > 1 and ngyrZ < 5 and ngyrZ > 0.5):
             print("You've tapped your phone")
+            q.put([2]) # TAPS
             time.sleep(0.05)
+
+        # Pointer Check
+        else
+            q.put([3, naccX, naccY])
+
             
         #print("Accelerometer: ", naccX, ' ', naccY, ' ', naccZ, ' \n', "Gyroscope: ", ngyrX, ' ', ngyrY, ' ', ngyrZ)
 
