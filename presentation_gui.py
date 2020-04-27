@@ -17,8 +17,10 @@ class PresentationAPP(tk.Tk):
 
         # CHANGE THESE SOURCE FILES TO SLIDESHOW LOOKING IMAGES
         self.picture_sources = [
-            "Backgrounds\\img1.jpg",
-            "Backgrounds\\img2.jpg",
+            "E:\\Desktop Backgrounds\\Nature Photos\\6uawxoeamejy.jpg",
+            "E:\\Desktop Backgrounds\\Nature Photos\\7C36tEF.jpg",
+            "E:\\Desktop Backgrounds\\Nature Photos\\99nmstboh26z.jpg",
+            "E:\\Desktop Backgrounds\\Nature Photos\\cbbyNYq.jpg",
         ]
         self.pictures = []
         self.slide_index = 0
@@ -62,5 +64,35 @@ class PresentationAPP(tk.Tk):
         self.MOUSE_Y += y_offset
         pyautogui.moveTo(self.MOUSE_X, self.MOUSE_Y)
 
-    def run(self):
+    def queue_event(self, q):
+        while True:
+            try:
+                event = q.get(timeout=0.1)
+            except:
+                break
+
+            # TILT-FORWARD
+            if event[0] == 0:
+                self.show_slides("FORWARD")
+            # TILT-BACKWARDS
+            elif event[0] == 1:
+                self.show_slides("BACKWARDS")
+            # CLICK EVENT
+            elif event[0] == 2:
+                self.click()
+            # MOUSE MOVE EVENT, ADD X Y as other args
+            elif event[0] == 3:
+                self.move_mouse(event[1], event[2])
+            else:
+                print("Unkown event argument)")
+
+        self.after(50, lambda: self.queue_event(q))
+
+    def run(self, q):
+        self.after(500, lambda: self.queue_event(q))
         self.mainloop()
+
+# app = PresentationAPP(WIDTH, HEIGHT)
+# app.init_images()
+# app.show_slides("FORWARD")
+# app.run()
