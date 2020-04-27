@@ -99,7 +99,7 @@ def data_main(q):
             time.sleep(0.05)
 
         # Pointer Check
-        else
+        else:
             q.put([3, naccX, naccY])
 
             
